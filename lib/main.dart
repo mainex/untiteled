@@ -1,6 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'word_wall.dart';
 
 void main() {
   runApp(MyApp());
@@ -71,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     return Scaffold(
-      body: Expanded(
+      body: Center(
         child: Container(
           color: Theme.of(context).colorScheme.primaryContainer,
           child: page,
@@ -143,8 +144,6 @@ class FavoritesPage extends StatelessWidget {
 class MediaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
     return Container(
         color: Colors.white,
         child: ListView(scrollDirection: Axis.vertical, children: [
@@ -167,25 +166,7 @@ class MediaPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Roboto')),
           ),
-          Container(
-            height: 280,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                SizedBox(
-                  width: 20,
-                ),
-                VerticalCard(film: Film("1", "1")),
-                VerticalCard(film: Film("2", "2")),
-                VerticalCard(film: Film("3", "3")),
-                VerticalCard(film: Film("4", "4")),
-                VerticalCard(film: Film("5", "5")),
-                SizedBox(
-                  width: 20,
-                ),
-              ],
-            ),
-          ),
+          WordWall(),
           SizedBox(
             height: 30,
           ),
@@ -197,74 +178,7 @@ class MediaPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Roboto')),
           ),
-          Container(
-            height: 280,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                SizedBox(
-                  width: 20,
-                ),
-                VerticalCard(film: Film("1", "1")),
-                VerticalCard(film: Film("2", "2")),
-                VerticalCard(film: Film("3", "3")),
-                VerticalCard(film: Film("4", "4")),
-                VerticalCard(film: Film("5", "5")),
-                SizedBox(
-                  width: 20,
-                ),
-              ],
-            ),
-          )
+          WordWall(),
         ]));
-  }
-}
-
-class Film {
-  var title = "my film";
-  var description = "my film desc";
-
-  Film(var _title, var _description) {
-    title = _title;
-    description = _description;
-  }
-}
-
-class VerticalCard extends StatelessWidget {
-  const VerticalCard({
-    super.key,
-    required this.film,
-  });
-
-  final Film film;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: LinearBorder(),
-      elevation: 0,
-      color: Colors.white,
-      child: SizedBox(
-          width: 130,
-          height: 280,
-          child: Column(
-            children: [
-              Container(
-                height: 200,
-                width: 130,
-                color: Colors.red,
-              ),
-              SizedBox(
-                height: 11,
-              ),
-              Text(film.title,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left),
-              Text(film.description,
-                  style: TextStyle(fontSize: 20, color: Colors.grey[500]),
-                  textAlign: TextAlign.left),
-            ],
-          )),
-    );
   }
 }
