@@ -1,7 +1,9 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/api.dart';
 import 'package:provider/provider.dart';
 import 'word_wall.dart';
+import 'film.dart';
 
 void main() {
   runApp(MyApp());
@@ -166,7 +168,17 @@ class MediaPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Roboto')),
           ),
-          FilmWall(),
+          FutureBuilder<List<Film>>(
+              future: getNowInCinemaList(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const CircularProgressIndicator();
+                  default:
+                    return FilmWall(snapshot.data!);
+                }
+              }),
           SizedBox(
             height: 30,
           ),
@@ -178,7 +190,17 @@ class MediaPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Roboto')),
           ),
-          FilmWall(),
+          FutureBuilder<List<Film>>(
+              future: getReleaseCalendarList(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const CircularProgressIndicator();
+                  default:
+                    return FilmWall(snapshot.data!);
+                }
+              }),
         ]));
   }
 }

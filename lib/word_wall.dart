@@ -4,35 +4,33 @@ import 'film.dart';
 import 'api.dart';
 
 class FilmWall extends StatelessWidget {
+  List<Film> listOfFilms;
+
+  FilmWall(this.listOfFilms);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 320,
-        child: FutureBuilder<List<Film>>(
-            future: getTopMoviesArray(),
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return const CircularProgressIndicator();
-                default:
-                  return ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      VerticalCard(film: snapshot.data![0]),
-                      VerticalCard(film: snapshot.data![1]),
-                      VerticalCard(film: snapshot.data![2]),
-                      VerticalCard(film: snapshot.data![3]),
-                      VerticalCard(film: snapshot.data![4]),
-                      SizedBox(
-                        width: 20,
-                      ),
-                    ],
-                  );
-              }
-            }));
+        height: 340,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            SizedBox(
+              width: 20,
+            ),
+            VerticalCard(film: listOfFilms[0]),
+            VerticalCard(film: listOfFilms[1]),
+            VerticalCard(film: listOfFilms[2]),
+            VerticalCard(film: listOfFilms[3]),
+            VerticalCard(film: listOfFilms[4]),
+            VerticalCard(film: listOfFilms[5]),
+            VerticalCard(film: listOfFilms[6]),
+            VerticalCard(film: listOfFilms[7]),
+            VerticalCard(film: listOfFilms[8]),
+            SizedBox(
+              width: 20,
+            ),
+          ],
+        ));
   }
 }
