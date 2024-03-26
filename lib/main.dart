@@ -166,7 +166,7 @@ class MediaPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Roboto')),
           ),
-          WordWall(),
+          FilmWall(),
           SizedBox(
             height: 30,
           ),
@@ -178,7 +178,7 @@ class MediaPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Roboto')),
           ),
-          WordWall(),
+          FilmWall(),
         ]));
   }
 }

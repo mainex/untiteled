@@ -28,12 +28,18 @@ class VerticalCard extends StatelessWidget {
               SizedBox(
                 height: 11,
               ),
-              Text(film.title,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left),
-              Text(film.description,
-                  style: TextStyle(fontSize: 20, color: Colors.grey[500]),
-                  textAlign: TextAlign.left),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(film.title,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(film.description,
+                    style: TextStyle(fontSize: 20, color: Colors.grey[500]),
+                    textAlign: TextAlign.left),
+              ),
             ],
           )),
     );
