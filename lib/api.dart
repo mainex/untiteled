@@ -21,10 +21,7 @@ Future<List<Film>> getNowInCinemaList() async {
   final jsonData = json.decode(data)['results'];
   List<Film> list = [];
   for (var i = 0; i < 10; ++i) {
-    final title = jsonData[i]['original_title'];
-    final year = DateTime.parse(jsonData[i]['release_date']).year.toString();
-    Film film = Film(title, year,
-        'https://image.tmdb.org/t/p/w440_and_h660_face/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg');
+    Film film = Film(jsonData[i], 0);
     list.add(film);
   }
   return list;
@@ -37,33 +34,12 @@ Future<String> _getUpcoming() async {
   return response.body.toString();
 }
 
-String toString(DateTime date) {
-  Map<int, String> map = {
-    1: 'Jan',
-    2: 'Feb',
-    3: 'Mar',
-    4: 'Apr',
-    5: 'May',
-    6: 'Jun',
-    7: 'Jul',
-    8: 'Aug',
-    9: 'Sep',
-    10: 'Oct',
-    11: 'Nov',
-    12: 'Dec'
-  };
-  return date.day.toString() + ' ' + map[date.month]!;
-}
-
 Future<List<Film>> getReleaseCalendarList() async {
   String data = await _getUpcoming();
   final jsonData = json.decode(data)['results'];
   List<Film> list = [];
   for (var i = 0; i < 20; ++i) {
-    final title = jsonData[i]['original_title'];
-    final date = DateTime.parse(jsonData[i]['release_date']);
-    final desc = toString(date);
-    Film film = Film(title, desc, 'https://image.tmdb.org/t/p/w440_and_h660_face/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg');
+    Film film = Film(jsonData[i], 1);
     list.add(film);
   }
   return list;

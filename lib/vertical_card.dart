@@ -39,7 +39,7 @@ class VerticalCard extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(film.description,
+                child: Text(film.shortDesc,
                     style: TextStyle(fontSize: 20, color: Colors.grey[500]),
                     textAlign: TextAlign.left),
               ),
