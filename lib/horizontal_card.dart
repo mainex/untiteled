@@ -31,12 +31,15 @@ class HorizontalCard extends StatelessWidget {
                         image: NetworkImage(film.imageURL), fit: BoxFit.cover)),
               ),
               SizedBox(
-                width: 20,
+                width: 11,
               ),
               SizedBox(
                 width: 250,
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 8,
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(film.title,

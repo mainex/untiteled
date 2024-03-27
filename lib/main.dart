@@ -28,12 +28,22 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var watchList = <Film>[];
+  Map<int, Film> watchList = {};
   var todayInCinemaList = getNowInCinemaList();
   var releaseCalendarList = getReleaseCalendarList();
 
   void addToWatchList(Film film) {
-    watchList.add(film);
+    if (watchList.keys.contains(film.id)) {
+      watchList.remove(film.id);
+      // showGeneralDialog(context: context, pageBuilder: pageBuilder)
+      // showModalBottomSheet(context: context, builder: builder)
+
+      /*showModalBottomSheet(context: context, builder: (context) {
+        return Container();
+      },);*/
+    } else {
+      watchList[film.id] = film;
+    }
     notifyListeners();
   }
 }
@@ -124,8 +134,7 @@ class WatchListPage extends StatelessWidget {
           child: Text('You have '
               '${appState.watchList.length} favorites:'),
         ),
-        for (var film in appState.watchList)
-          HorizontalCard(film: film),
+        for (var film in appState.watchList.values) HorizontalCard(film: film),
       ],
     );
   }
@@ -157,10 +166,10 @@ class MediaPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Roboto')),
           ),
-          FutureBuilder<List<Film>>(
+          FutureBuilder<Map<int, Film>>(
               future: appState.todayInCinemaList,
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<int, Film>> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return const CircularProgressIndicator();
@@ -179,10 +188,10 @@ class MediaPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Roboto')),
           ),
-          FutureBuilder<List<Film>>(
+          FutureBuilder<Map<int, Film>>(
               future: appState.releaseCalendarList,
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<int, Film>> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return const CircularProgressIndicator();

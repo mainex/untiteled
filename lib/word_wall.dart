@@ -3,7 +3,7 @@ import 'vertical_card.dart';
 import 'film.dart';
 
 class FilmWall extends StatelessWidget {
-  List<Film> listOfFilms;
+  Map<int, Film> listOfFilms;
 
   FilmWall(this.listOfFilms);
 
@@ -17,15 +17,8 @@ class FilmWall extends StatelessWidget {
             SizedBox(
               width: 20,
             ),
-            VerticalCard(film: listOfFilms[0]),
-            VerticalCard(film: listOfFilms[1]),
-            VerticalCard(film: listOfFilms[2]),
-            VerticalCard(film: listOfFilms[3]),
-            VerticalCard(film: listOfFilms[4]),
-            VerticalCard(film: listOfFilms[5]),
-            VerticalCard(film: listOfFilms[6]),
-            VerticalCard(film: listOfFilms[7]),
-            VerticalCard(film: listOfFilms[8]),
+            for (var film in listOfFilms.values)
+              VerticalCard(film: film),
             SizedBox(
               width: 20,
             ),

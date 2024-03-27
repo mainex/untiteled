@@ -16,15 +16,15 @@ Future<String> _getNowInCinema() async {
   return response.body.toString();
 }
 
-Future<List<Film>> getNowInCinemaList() async {
+Future<Map<int, Film>> getNowInCinemaList() async {
   String data = await _getNowInCinema();
   final jsonData = json.decode(data)['results'];
-  List<Film> list = [];
+  Map<int, Film> map = {};
   for (var i = 0; i < 10; ++i) {
     Film film = Film(jsonData[i], 0);
-    list.add(film);
+    map[film.id]=film;
   }
-  return list;
+  return map;
 }
 
 Future<String> _getUpcoming() async {
@@ -34,13 +34,13 @@ Future<String> _getUpcoming() async {
   return response.body.toString();
 }
 
-Future<List<Film>> getReleaseCalendarList() async {
+Future<Map<int, Film>> getReleaseCalendarList() async {
   String data = await _getUpcoming();
   final jsonData = json.decode(data)['results'];
-  List<Film> list = [];
+  Map<int, Film> map = {};
   for (var i = 0; i < 20; ++i) {
     Film film = Film(jsonData[i], 1);
-    list.add(film);
+    map[film.id]=film;
   }
-  return list;
+  return map;
 }
