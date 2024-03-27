@@ -30,6 +30,11 @@ class MyAppState extends ChangeNotifier {
   var watchList = <Film>[];
   var todayInCinemaList = getNowInCinemaList();
   var releaseCalendarList = getReleaseCalendarList();
+
+  void addToWatchList(Film film) {
+    watchList.add(film);
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatefulWidget {

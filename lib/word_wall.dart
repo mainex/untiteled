@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'vertical_card.dart';
 import 'film.dart';
-import 'api.dart';
 
 class FilmWall extends StatelessWidget {
   List<Film> listOfFilms;
@@ -11,7 +10,7 @@ class FilmWall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 340,
+        height: 400,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [

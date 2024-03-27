@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/main.dart';
+import 'package:provider/provider.dart';
 import 'film.dart';
 
 class VerticalCard extends StatelessWidget {
@@ -11,6 +13,7 @@ class VerticalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
     return Card(
       shape: LinearBorder(),
       elevation: 0,
@@ -43,6 +46,14 @@ class VerticalCard extends StatelessWidget {
                     style: TextStyle(fontSize: 20, color: Colors.grey[500]),
                     textAlign: TextAlign.left),
               ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: ElevatedButton(
+                    onPressed: () {
+                      appState.addToWatchList(film);
+                    },
+                    child: Text('Add')),
+              )
             ],
           )),
     );
