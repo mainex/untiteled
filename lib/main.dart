@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/api.dart';
+import 'package:namer_app/horizontal_card.dart';
 import 'package:provider/provider.dart';
 import 'word_wall.dart';
 import 'film.dart';
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = MediaPage();
         break;
       case 1:
-        page = WatchLIstPage();
+        page = WatchListPage();
         break;
       case 2:
         page = Placeholder();
@@ -105,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class WatchLIstPage extends StatelessWidget {
+class WatchListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -123,7 +124,8 @@ class WatchLIstPage extends StatelessWidget {
           child: Text('You have '
               '${appState.watchList.length} favorites:'),
         ),
-        //for (var film in appState.watchList)
+        for (var film in appState.watchList)
+          HorizontalCard(film: film),
       ],
     );
   }
