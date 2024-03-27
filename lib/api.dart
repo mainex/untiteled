@@ -16,14 +16,6 @@ Future<String> _getNowInCinema() async {
   return response.body.toString();
 }
 
-Image _getImage(String path) {
-  final image = Image(
-    image:
-        NetworkImage('https://image.tmdb.org/t/p/w440_and_h660_face/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg'),
-  );
-  return image;
-}
-
 Future<List<Film>> getNowInCinemaList() async {
   String data = await _getNowInCinema();
   final jsonData = json.decode(data)['results'];
@@ -31,8 +23,8 @@ Future<List<Film>> getNowInCinemaList() async {
   for (var i = 0; i < 10; ++i) {
     final title = jsonData[i]['original_title'];
     final year = DateTime.parse(jsonData[i]['release_date']).year.toString();
-    final image = _getImage(jsonData[i]['poster_path']);
-    Film film = Film(title, year, image);
+    Film film = Film(title, year,
+        'https://image.tmdb.org/t/p/w440_and_h660_face/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg');
     list.add(film);
   }
   return list;
@@ -71,8 +63,7 @@ Future<List<Film>> getReleaseCalendarList() async {
     final title = jsonData[i]['original_title'];
     final date = DateTime.parse(jsonData[i]['release_date']);
     final desc = toString(date);
-    final image = _getImage(jsonData[i]['poster_path']);
-    Film film = Film(title, desc, image);
+    Film film = Film(title, desc, 'https://image.tmdb.org/t/p/w440_and_h660_face/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg');
     list.add(film);
   }
   return list;

@@ -23,7 +23,10 @@ class VerticalCard extends StatelessWidget {
               Container(
                 height: 200,
                 width: 130,
-                color: Colors.yellow,
+                color: null,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(film.imageURL), fit: BoxFit.cover)),
               ),
               SizedBox(
                 height: 11,
