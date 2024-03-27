@@ -1,4 +1,3 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/api.dart';
 import 'package:provider/provider.dart';
@@ -28,23 +27,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-
-  var favorites = <WordPair>[];
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
+  var watchList = <Film>[];
+  var todayInCinemaList = getNowInCinemaList();
+  var releaseCalendarList = getReleaseCalendarList();
 }
 
 class MyHomePage extends StatefulWidget {
@@ -63,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = MediaPage();
         break;
       case 1:
-        page = FavoritesPage();
+        page = WatchLIstPage();
         break;
       case 2:
         page = Placeholder();
@@ -115,14 +100,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class FavoritesPage extends StatelessWidget {
+class WatchLIstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    if (appState.favorites.isEmpty) {
+    if (appState.watchList.isEmpty) {
       return Center(
-        child: Text('No favorites yet.'),
+        child: Text('Empty List'),
       );
     }
 
@@ -131,13 +116,9 @@ class FavoritesPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20),
           child: Text('You have '
-              '${appState.favorites.length} favorites:'),
+              '${appState.watchList.length} favorites:'),
         ),
-        for (var pair in appState.favorites)
-          ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text(pair.asLowerCase),
-          ),
+        //for (var film in appState.watchList)
       ],
     );
   }
@@ -146,6 +127,7 @@ class FavoritesPage extends StatelessWidget {
 class MediaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
     return Container(
         color: Colors.white,
         child: ListView(scrollDirection: Axis.vertical, children: [
@@ -169,7 +151,7 @@ class MediaPage extends StatelessWidget {
                     fontFamily: 'Roboto')),
           ),
           FutureBuilder<List<Film>>(
-              future: getNowInCinemaList(),
+              future: appState.todayInCinemaList,
               builder:
                   (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
                 switch (snapshot.connectionState) {
@@ -191,7 +173,7 @@ class MediaPage extends StatelessWidget {
                     fontFamily: 'Roboto')),
           ),
           FutureBuilder<List<Film>>(
-              future: getReleaseCalendarList(),
+              future: appState.releaseCalendarList,
               builder:
                   (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
                 switch (snapshot.connectionState) {
