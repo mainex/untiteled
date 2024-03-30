@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = WatchListPage();
         break;
       case 2:
-        page = Placeholder();
+        page = SearchPage();
       case 3:
         page = Placeholder();
       default:
@@ -122,21 +122,31 @@ class WatchListPage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
 
     if (appState.watchList.isEmpty) {
-      return Center(
-        child: Text('Empty List'),
+      return Scaffold(
+        body: Center(
+          child: Text('Empty List'),
+        ),
       );
     }
 
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text('You have '
-              '${appState.watchList.length} favorites:'),
+    return Scaffold(
+        appBar: AppBar(
+          title: Align(
+              alignment: Alignment.center, child: const Text('Watch List')),
+          titleTextStyle: TextStyle(
+              fontSize: 20, color: Colors.black, fontWeight: FontWeight.w700),
         ),
-        for (var film in appState.watchList.values) HorizontalCard(film: film),
-      ],
-    );
+        body: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text('You have '
+                  '${appState.watchList.length} in watch list:'),
+            ),
+            for (var film in appState.watchList.values)
+              HorizontalCard(film: film),
+          ],
+        ));
   }
 }
 
@@ -200,5 +210,68 @@ class MediaPage extends StatelessWidget {
                 }
               }),
         ]));
+  }
+}
+
+class SearchPage extends StatefulWidget {
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  String query = '';
+
+  var searchResults = searchMovie('');
+
+  void onQueryChanged(String newQuery) {
+    query = newQuery;
+    setState(() {
+      searchResults = searchMovie(query);
+    });
+    print(query);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              child: TextField(
+                onChanged: onQueryChanged,
+                decoration: InputDecoration(
+                  labelText: 'Search',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder<List<Film>>(
+                  future: searchResults,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Film>> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const CircularProgressIndicator();
+                      default:
+                        return ListView(
+                          children: [
+                            if (snapshot.data != null)
+                              for (var film in snapshot.data!)
+                                HorizontalCard(film: film)
+                            else
+                              ListTile(title: const Text('no'))
+                          ],
+                        );
+                    }
+                  }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

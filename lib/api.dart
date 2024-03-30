@@ -22,7 +22,7 @@ Future<Map<int, Film>> getNowInCinemaList() async {
   Map<int, Film> map = {};
   for (var i = 0; i < 10; ++i) {
     Film film = Film(jsonData[i], 0);
-    map[film.id]=film;
+    map[film.id] = film;
   }
   return map;
 }
@@ -40,7 +40,26 @@ Future<Map<int, Film>> getReleaseCalendarList() async {
   Map<int, Film> map = {};
   for (var i = 0; i < 20; ++i) {
     Film film = Film(jsonData[i], 1);
-    map[film.id]=film;
+    map[film.id] = film;
   }
   return map;
+}
+
+Future<String> _searchMovie(String query) async {
+  Uri uri = Uri.parse('https://api.themoviedb.org/3/search/movie?query=' +
+      query +
+      '&include_adult=true&language=en-US&page=1');
+  http.Response response = await http.get(uri, headers: requestHeaders);
+  return response.body.toString();
+}
+
+Future<List<Film>> searchMovie(String query) async {
+  String data = await _searchMovie(query);
+  final jsonData = json.decode(data)['results'];
+  List<Film> list = [];
+  for (var filmData in jsonData) {
+    Film film = Film(filmData, 1);
+    list.add(film);
+  }
+  return list;
 }

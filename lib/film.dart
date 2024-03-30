@@ -32,11 +32,16 @@ class Film {
     id = jsonData['id'];
     title = jsonData['title'];
     overview = jsonData['overview'];
-    releaseDate = DateTime.parse(jsonData['release_date']);
+    if (jsonData['release_date'] != "")
+      releaseDate = DateTime.parse(jsonData['release_date']);
     voteAverage = jsonData['vote_average'].toString();
     year = releaseDate.year.toString();
     releaseDateMonth = toString(releaseDate);
-    imageURL += jsonData['poster_path'];
+    if (jsonData['poster_path'] != null)
+      imageURL += jsonData['poster_path'];
+    else
+      imageURL =
+          'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
     if (1 == shortDescType) {
       shortDesc = releaseDateMonth;
     } else {

@@ -44,13 +44,13 @@ class HorizontalCard extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(film.title,
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 18, fontWeight: FontWeight.w600),
                           textAlign: TextAlign.left),
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(film.year,
-                          style: TextStyle(fontSize: 20, color: Colors.grey[500]),
+                          style: TextStyle(fontSize: 18, color: Colors.grey[500]),
                           textAlign: TextAlign.left),
                     ),
                   ],
