@@ -1,3 +1,5 @@
+import 'package:floor/floor.dart';
+
 String toString(DateTime date) {
   Map<int, String> map = {
     1: 'Jan',
@@ -16,7 +18,9 @@ String toString(DateTime date) {
   return date.day.toString() + ' ' + map[date.month]!;
 }
 
+@entity
 class Film {
+  @primaryKey
   var id = 0;
   var title = "my film";
   var shortDesc = 'my film desc';
@@ -26,17 +30,28 @@ class Film {
   var voteAverage = '7.0';
   var year = '2024';
   var releaseDateMonth = '';
-  DateTime releaseDate = DateTime.now();
+  var releaseDate = DateTime.now().toString();
 
-  Film(var jsonData, var shortDescType) {
+  Film(
+      this.id,
+      this.title,
+      this.shortDesc,
+      this.imageURL,
+      this.overview,
+      this.genre,
+      this.voteAverage,
+      this.year,
+      this.releaseDateMonth,
+      this.releaseDate);
+
+  Film.fromJson(dynamic jsonData, int shortDescType) {
     id = jsonData['id'];
     title = jsonData['title'];
     overview = jsonData['overview'];
-    if (jsonData['release_date'] != "")
-      releaseDate = DateTime.parse(jsonData['release_date']);
+    if (jsonData['release_date'] != "") releaseDate = jsonData['release_date'];
     voteAverage = jsonData['vote_average'].toString();
-    year = releaseDate.year.toString();
-    releaseDateMonth = toString(releaseDate);
+    year = DateTime.parse(releaseDate).year.toString();
+    releaseDateMonth = toString(DateTime.parse(releaseDate));
     if (jsonData['poster_path'] != null)
       imageURL += jsonData['poster_path'];
     else
@@ -47,5 +62,22 @@ class Film {
     } else {
       shortDesc = year;
     }
+  }
+
+  // Convert a Film into a Map. The keys must correspond to the names of the
+  // columns in the database.
+  Map<String, Object?> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'shortDesc': shortDesc,
+      'imageUrl': imageURL,
+      'overview': overview,
+      'genre': genre,
+      'voteAverage': voteAverage,
+      'year': year,
+      'releaseDateMonth': releaseDateMonth,
+      'releaseDate': releaseDate
+    };
   }
 }

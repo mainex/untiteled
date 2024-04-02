@@ -21,7 +21,7 @@ Future<Map<int, Film>> getNowInCinemaList() async {
   final jsonData = json.decode(data)['results'];
   Map<int, Film> map = {};
   for (var i = 0; i < 10; ++i) {
-    Film film = Film(jsonData[i], 0);
+    Film film = Film.fromJson(jsonData[i], 0);
     map[film.id] = film;
   }
   return map;
@@ -39,7 +39,7 @@ Future<Map<int, Film>> getReleaseCalendarList() async {
   final jsonData = json.decode(data)['results'];
   Map<int, Film> map = {};
   for (var i = 0; i < 20; ++i) {
-    Film film = Film(jsonData[i], 1);
+    Film film = Film.fromJson(jsonData[i], 1);
     map[film.id] = film;
   }
   return map;
@@ -58,7 +58,7 @@ Future<List<Film>> searchMovie(String query) async {
   final jsonData = json.decode(data)['results'];
   List<Film> list = [];
   for (var filmData in jsonData) {
-    Film film = Film(filmData, 1);
+    Film film = Film.fromJson(filmData, 1);
     list.add(film);
   }
   return list;

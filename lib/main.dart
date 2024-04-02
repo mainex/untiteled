@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/api.dart';
+import 'package:namer_app/film_dao.dart';
 import 'package:namer_app/horizontal_card.dart';
 import 'package:provider/provider.dart';
-import 'word_wall.dart';
-import 'film.dart';
+import 'package:namer_app/database.dart';
+import 'package:namer_app/word_wall.dart';
+import 'package:namer_app/film.dart';
+import 'package:flutter/widgets.dart';
 
-void main() {
+late AppDatabase database;
+late FilmDao filmDao;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  filmDao = database.filmDao;
+
   runApp(MyApp());
 }
 
@@ -28,22 +39,16 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  Map<int, Film> watchList = {};
+  var watchList = [];
+
+  //filmDao.findAllFilms();
   var todayInCinemaList = getNowInCinemaList();
   var releaseCalendarList = getReleaseCalendarList();
 
-  void addToWatchList(Film film) {
-    if (watchList.keys.contains(film.id)) {
-      watchList.remove(film.id);
-      // showGeneralDialog(context: context, pageBuilder: pageBuilder)
-      // showModalBottomSheet(context: context, builder: builder)
-
-      /*showModalBottomSheet(context: context, builder: (context) {
-        return Container();
-      },);*/
-    } else {
-      watchList[film.id] = film;
-    }
+  void addToWatchList(Film film) async {
+    filmDao.insertFilm(film);
+    print('Added');
+    watchList.add(film);
     notifyListeners();
   }
 }
@@ -120,33 +125,35 @@ class WatchListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-
-    if (appState.watchList.isEmpty) {
-      return Scaffold(
-        body: Center(
-          child: Text('Empty List'),
-        ),
-      );
-    }
-
     return Scaffold(
-        appBar: AppBar(
-          title: Align(
-              alignment: Alignment.center, child: const Text('Watch List')),
-          titleTextStyle: TextStyle(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.w700),
-        ),
-        body: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text('You have '
-                  '${appState.watchList.length} in watch list:'),
-            ),
-            for (var film in appState.watchList.values)
-              HorizontalCard(film: film),
-          ],
-        ));
+      appBar: AppBar(
+        title:
+            Align(alignment: Alignment.center, child: const Text('Watch List')),
+        titleTextStyle: TextStyle(
+            fontSize: 20, color: Colors.black, fontWeight: FontWeight.w700),
+      ),
+      body: FutureBuilder<List<Film>>(
+          future: filmDao.findAllFilms(),
+          builder: (BuildContext context, AsyncSnapshot<List<Film>> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const CircularProgressIndicator();
+              default:
+                appState.watchList = snapshot.data!;
+                return ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Text('You have '
+                          '${appState.watchList.length} in watch list:'),
+                    ),
+                    for (var film in appState.watchList)
+                      HorizontalCard(film: film),
+                  ],
+                );
+            }
+          }),
+    );
   }
 }
 
