@@ -46,9 +46,10 @@ class MyAppState extends ChangeNotifier {
   var releaseCalendarList = getReleaseCalendarList();
 
   void addToWatchList(Film film) async {
-    filmDao.insertFilm(film);
-    print('Added');
-    watchList.add(film);
+    if (await filmDao.findFilmById(film.id).isEmpty) {
+      filmDao.insertFilm(film);
+      watchList.add(film);
+    }
     notifyListeners();
   }
 }
