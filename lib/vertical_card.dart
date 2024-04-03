@@ -14,11 +14,13 @@ class VerticalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var text;
+    var text, icon;
     if (appState.watchList.keys.contains(film.id)) {
       text = 'Remove';
+      icon = Icons.delete;
     } else {
       text = 'Add';
+      icon = Icons.add;
     }
     return Card(
       shape: LinearBorder(),
@@ -54,11 +56,12 @@ class VerticalCard extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomLeft,
-                child: ElevatedButton(
+                child: ElevatedButton.icon(
                     onPressed: () {
                       appState.addToWatchList(film);
                     },
-                    child:  Text(text)),
+                    icon: Icon(icon),
+                    label: Text(text)),
               )
             ],
           )),

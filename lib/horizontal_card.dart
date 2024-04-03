@@ -14,6 +14,14 @@ class HorizontalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
+    var text, icon;
+    if (appState.watchList.keys.contains(film.id)) {
+      text = 'Remove';
+      icon = Icons.delete;
+    } else {
+      text = 'Add';
+      icon = Icons.add;
+    }
     return Card(
       shape: LinearBorder(),
       elevation: 0,
@@ -33,8 +41,8 @@ class HorizontalCard extends StatelessWidget {
               SizedBox(
                 width: 11,
               ),
-              SizedBox(
-                width: 250,
+              Container(
+                width: 180,
                 child: Column(
                   children: [
                     SizedBox(
@@ -52,10 +60,19 @@ class HorizontalCard extends StatelessWidget {
                       child: Text(film.year,
                           style: TextStyle(fontSize: 18, color: Colors.grey[500]),
                           textAlign: TextAlign.left),
-                    ),
+                    )
                   ],
                 ),
               ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton.icon(
+                    onPressed: () {
+                      appState.addToWatchList(film);
+                    },
+                    icon: Icon(icon),
+                    label:  Text(text)),
+              )
             ],
           )),
     );
