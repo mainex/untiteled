@@ -24,7 +24,10 @@ class WatchListPage extends StatelessWidget {
               case ConnectionState.waiting:
                 return const CircularProgressIndicator();
               default:
-                appState.watchList = snapshot.data!;
+                var films = snapshot.data!;
+                for (var el in films) {
+                  appState.watchList[el.id] = el;
+                }
                 return ListView(
                   children: [
                     Padding(
@@ -32,7 +35,7 @@ class WatchListPage extends StatelessWidget {
                       child: Text('You have '
                           '${appState.watchList.length} in watch list:'),
                     ),
-                    for (var film in appState.watchList)
+                    for (var film in appState.watchList.values)
                       HorizontalCard(film: film),
                   ],
                 );
