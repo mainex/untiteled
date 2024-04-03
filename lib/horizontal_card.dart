@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:namer_app/main.dart';
 import 'package:provider/provider.dart';
 import 'film.dart';
+import 'my_app_state.dart';
 
 class HorizontalCard extends StatelessWidget {
   const HorizontalCard({
