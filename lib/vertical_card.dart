@@ -54,6 +54,7 @@ class VerticalCard extends StatelessWidget {
                     style: TextStyle(fontSize: 20, color: Colors.grey[500]),
                     textAlign: TextAlign.left),
               ),
+              Spacer(),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: ElevatedButton.icon(
