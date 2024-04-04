@@ -18,4 +18,8 @@ class MyAppState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void sort() {
+
+  }
 }
