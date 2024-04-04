@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'vertical_card.dart';
 import 'film.dart';
 
+// horizontal list of films
 class FilmWall extends StatelessWidget {
   Map<int, Film> listOfFilms;
 
@@ -17,8 +18,7 @@ class FilmWall extends StatelessWidget {
             SizedBox(
               width: 20,
             ),
-            for (var film in listOfFilms.values)
-              VerticalCard(film: film),
+            for (var film in listOfFilms.values) VerticalCard(film: film),
             SizedBox(
               width: 20,
             ),

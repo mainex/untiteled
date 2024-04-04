@@ -15,6 +15,7 @@ abstract class FilmDao {
   @Query('SELECT * FROM Film WHERE id = :id')
   Stream<Film?> findFilmById(int id);
 
+  // remove film from watchlist by id
   @Query('DELETE FROM Film WHERE id = :id')
   Future<void> removeFilmByID(int id);
 }

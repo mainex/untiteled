@@ -19,10 +19,12 @@ Future<String> _getNowInCinema() async {
 
 // Get a list of movies that are currently in theatres (map of films)
 Future<Map<int, Film>> getNowInCinemaList() async {
+  //get a response
   String data = await _getNowInCinema();
   final jsonData = json.decode(data)['results'];
   Map<int, Film> map = {};
   for (var i = 0; i < 10; ++i) {
+    // add film to dictionary with id as key
     Film film = Film.fromJson(jsonData[i], 0);
     map[film.id] = film;
   }
@@ -39,10 +41,12 @@ Future<String> _getUpcoming() async {
 
 // Get a list of movies that are being released soon (map of films)
 Future<Map<int, Film>> getReleaseCalendarList() async {
+  // get a response
   String data = await _getUpcoming();
   final jsonData = json.decode(data)['results'];
   Map<int, Film> map = {};
-  for (var i = 0; i < 20; ++i) {
+  for (var i = 0; i < 10; ++i) {
+    // add film to dictionary with id as key
     Film film = Film.fromJson(jsonData[i], 1);
     map[film.id] = film;
   }
@@ -64,6 +68,7 @@ Future<List<Film>> searchMovie(String query) async {
   final jsonData = json.decode(data)['results'];
   List<Film> list = [];
   for (var filmData in jsonData) {
+    // add film to list
     Film film = Film.fromJson(filmData, 1);
     list.add(film);
   }

@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
 
 String toString(DateTime date) {
+  // dictionary: from number to month name
   Map<int, String> map = {
     1: 'Jan',
     2: 'Feb',
@@ -15,6 +16,8 @@ String toString(DateTime date) {
     11: 'Nov',
     12: 'Dec'
   };
+
+  // return date and month
   return date.day.toString() + ' ' + map[date.month]!;
 }
 

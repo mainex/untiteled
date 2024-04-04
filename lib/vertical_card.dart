@@ -59,7 +59,7 @@ class VerticalCard extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 child: ElevatedButton.icon(
                     onPressed: () {
-                      appState.addToWatchList(film);
+                      appState.toggleWatchList(film);
                     },
                     icon: Icon(icon),
                     label: Text(text)),

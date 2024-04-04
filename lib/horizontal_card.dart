@@ -14,7 +14,8 @@ class HorizontalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var text, icon;
+    String text;
+    IconData icon;
     if (appState.watchList.keys.contains(film.id)) {
       text = 'Remove';
       icon = Icons.delete;
@@ -58,7 +59,8 @@ class HorizontalCard extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(film.year,
-                          style: TextStyle(fontSize: 18, color: Colors.grey[500]),
+                          style:
+                              TextStyle(fontSize: 18, color: Colors.grey[500]),
                           textAlign: TextAlign.left),
                     )
                   ],
@@ -68,10 +70,10 @@ class HorizontalCard extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: ElevatedButton.icon(
                     onPressed: () {
-                      appState.addToWatchList(film);
+                      appState.toggleWatchList(film);
                     },
                     icon: Icon(icon),
-                    label:  Text(text)),
+                    label: Text(text)),
               )
             ],
           )),

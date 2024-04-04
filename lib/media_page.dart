@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/film_wall.dart';
 import 'package:provider/provider.dart';
