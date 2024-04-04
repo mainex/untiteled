@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,8 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
         break;
       case 2:
         page = SearchPage();
-      case 3:
-        page = Placeholder();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -75,10 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.search),
             label: 'Search',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
         ],
         currentIndex: selectedIndex,
         onTap: (value) {
@@ -86,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
             selectedIndex = value;
           });
         },
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.grey[100],
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey[800],
         showSelectedLabels: false,

@@ -65,6 +65,8 @@ class MediaPage extends StatelessWidget {
                     return FilmWall(snapshot.data!);
                 }
               }),
-        ]));
+        SizedBox(
+          height: 16,
+        )]));
   }
 }
