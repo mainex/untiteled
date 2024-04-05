@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'film.dart';
 import 'horizontal_card.dart';
 import 'main.dart';
-import 'my_app_state.dart';
 
 class WatchListPage extends StatefulWidget {
   @override
@@ -16,20 +13,7 @@ class _WatchListPageState extends State<WatchListPage> {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
     List<Film> sortedWatchList = [];
-
-    for (var film in appState.watchList.values) {
-      sortedWatchList.add(film);
-    }
-
-    switch (dropdownvalue) {
-      case 'Title':
-        sortedWatchList.sort((a, b) => a.title.compareTo(b.title));
-      case 'Release date':
-        sortedWatchList.sort((a, b) => a.releaseDate.compareTo(b.releaseDate));
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -45,9 +29,13 @@ class _WatchListPageState extends State<WatchListPage> {
               case ConnectionState.waiting:
                 return const CircularProgressIndicator();
               default:
-                var films = snapshot.data!;
-                for (var el in films) {
-                  appState.watchList[el.id] = el;
+                sortedWatchList = snapshot.data!;
+                switch (dropdownvalue) {
+                  case 'Title':
+                    sortedWatchList.sort((a, b) => a.title.compareTo(b.title));
+                  case 'Release date':
+                    sortedWatchList
+                        .sort((a, b) => a.releaseDate.compareTo(b.releaseDate));
                 }
                 return ListView(
                   children: [
@@ -90,7 +78,7 @@ class _WatchListPageState extends State<WatchListPage> {
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: Text('You have '
-                          '${appState.watchList.length} in watch list:'),
+                          '${sortedWatchList.length} in watch list:'),
                     ),
                     for (var film in sortedWatchList)
                       HorizontalCard(film: film),

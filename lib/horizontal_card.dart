@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/main.dart';
 import 'package:provider/provider.dart';
 import 'film.dart';
 import 'my_app_state.dart';
@@ -16,13 +17,6 @@ class HorizontalCard extends StatelessWidget {
     var appState = context.watch<MyAppState>();
     String text;
     IconData icon;
-    if (appState.watchList.keys.contains(film.id)) {
-      text = 'Remove';
-      icon = Icons.delete;
-    } else {
-      text = 'Add';
-      icon = Icons.add;
-    }
     return Card(
       shape: LinearBorder(),
       elevation: 0,
@@ -68,12 +62,30 @@ class HorizontalCard extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.centerRight,
-                child: ElevatedButton.icon(
-                    onPressed: () {
-                      appState.toggleWatchList(film);
-                    },
-                    icon: Icon(icon),
-                    label: Text(text)),
+                child: FutureBuilder<Film?>(
+                    future: filmDao.findFilmById(film.id).first,
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Film?> snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return const CircularProgressIndicator();
+                        default:
+                          if (snapshot.data != null) {
+                            text = 'Remove';
+                            icon = Icons.delete;
+                          } else {
+                            text = 'Add';
+                            icon = Icons.add;
+                          }
+                          return ElevatedButton.icon(
+                            onPressed: () {
+                              appState.toggleWatchList(film);
+                            },
+                            icon: Icon(icon),
+                            label: Text(text),
+                          );
+                      }
+                    }),
               )
             ],
           )),

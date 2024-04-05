@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'film.dart';
+import 'main.dart';
 import 'my_app_state.dart';
 
 class VerticalCard extends StatelessWidget {
@@ -15,13 +16,6 @@ class VerticalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var text, icon;
-    if (appState.watchList.keys.contains(film.id)) {
-      text = 'Remove';
-      icon = Icons.delete;
-    } else {
-      text = 'Add';
-      icon = Icons.add;
-    }
     return Card(
       shape: LinearBorder(),
       elevation: 0,
@@ -57,12 +51,30 @@ class VerticalCard extends StatelessWidget {
               Spacer(),
               Align(
                 alignment: Alignment.bottomLeft,
-                child: ElevatedButton.icon(
-                    onPressed: () {
-                      appState.toggleWatchList(film);
-                    },
-                    icon: Icon(icon),
-                    label: Text(text)),
+                child: FutureBuilder<Film?>(
+                    future: filmDao.findFilmById(film.id).first,
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Film?> snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return const CircularProgressIndicator();
+                        default:
+                          if (snapshot.data != null) {
+                            text = 'Remove';
+                            icon = Icons.delete;
+                          } else {
+                            text = 'Add';
+                            icon = Icons.add;
+                          }
+                          return ElevatedButton.icon(
+                            onPressed: () {
+                              appState.toggleWatchList(film);
+                            },
+                            icon: Icon(icon),
+                            label: Text(text),
+                          );
+                      }
+                    }),
               )
             ],
           )),
